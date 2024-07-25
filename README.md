@@ -11,7 +11,7 @@ let byteArray: [UInt8] = [0x48, 0x65, 0x6C, 0x6C, 0x6F]
 let data = Data {
   value
   "hello world"
-  ("hello", .macOSRoman),
+  ("hello", .macOSRoman)
   if value == 21 {
     UInt8(255)
   }
