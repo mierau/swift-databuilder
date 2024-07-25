@@ -3,11 +3,17 @@ import Foundation
 enum DataEndianness {
   case big
   case little
+  
+  // The system's data endianness.
+  static let system: DataEndianness = {
+    let number: UInt32 = 0x12345678
+    return number == number.littleEndian ? .little : .big
+  }()
 }
 
 @resultBuilder
 struct DataBuilder {
-  static var defaultEndian: DataEndianness = .little
+  static var defaultEndian: DataEndianness = .system
   
   static func buildBlock(_ components: Data...) -> Data {
     components.reduce(Data(), +)
@@ -60,7 +66,7 @@ struct DataBuilder {
 }
 
 extension Data {
-  init(endian: DataEndianness = .little, @DataBuilder _ content: () -> Data) {
+  init(endian: DataEndianness = .system, @DataBuilder _ content: () -> Data) {
     DataBuilder.defaultEndian = endian
     self = content()
   }
